@@ -1,0 +1,19 @@
+.env
+log
+.venv
+
+# Directories
+build
+dist
+
+# Other
+.DS_Store
+
+# Pytest
+.pytest_cache
+
+# Pytest
+__pycache__
+
+# Coverage
+.htmlcov
