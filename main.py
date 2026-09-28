@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from database import close_db, init_db
+from routes import contracts
 
 
 @asynccontextmanager
@@ -21,7 +22,8 @@ app = FastAPI(
     redoc_url="/redoc",
     lifespan=lifespan,
 )
-
+# Routers
+app.include_router(contracts.router)    
 
 @app.get("/")
 def root():
