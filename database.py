@@ -6,10 +6,12 @@ from pymongo.errors import ConnectionFailure
 
 load_dotenv()
 
-MONGODB_URI = os.getenv("MONGODB_URI", "mongodb://root:password@localhost:27017/vakeel_db?authSource=admin")
+MONGODB_URI = os.getenv(
+    "MONGODB_URI", "mongodb://root:password@localhost:27017/vakeel_db?authSource=admin"
+)
 
 # Initialize client
-client = MongoClient(MONGODB_URI)
+client= MongoClient(MONGODB_URI)
 db = client["vakeel_db"]
 
 # Collections
