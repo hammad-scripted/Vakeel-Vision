@@ -4,7 +4,6 @@ from typing import Optional
 from uuid import uuid4
 
 from pydantic import BaseModel, Field, field_validator
-from typing import Optional
 
 
 class ContractStatus(str, Enum):
@@ -32,13 +31,14 @@ class Contract(ContractBase):
     status: ContractStatus = ContractStatus.UPLOADED
     file_path: Optional[str] = None
     file_size_mb: float = Field(default=0.0, ge=0.0)
+    text_content: Optional[str] = None
 
     @field_validator("word_count", mode="before")
     @classmethod
     def calculate_word_count(cls, v, info):
         # Auto-compute word count if default 0 is passed and text exists
         if not v and "text_content" in info.data:
-            return len(info.data["text_content"].split())
+            return len((info.data["text_content"] or "").split())
         return v
 
 
@@ -51,6 +51,7 @@ class ContractResponse(BaseModel):
     word_count: int
     status: ContractStatus
     file_size_mb: float
+    text_content: Optional[str] = None
 
     class Config:
         from_attributes = True

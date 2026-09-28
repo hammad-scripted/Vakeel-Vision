@@ -6,7 +6,7 @@ def extract_text_from_text(file_path: str) -> dict:
     """Extracts text from a plain text file."""
     with open(file_path, "r", encoding="utf-8") as f:
         text = f.read()
-    return {"text": text.strip()}
+    return {"text": text.strip(), "page_count": 1}
 
 
 def extract_text_from_pdf(file_path: str) -> dict:
@@ -20,7 +20,7 @@ def extract_text_from_pdf(file_path: str) -> dict:
             extracted_pages.append(page_text)
 
     full_text = "\n".join(extracted_pages)
-    return {"text": full_text.strip()}
+    return {"text": full_text.strip(), "page_count": len(reader.pages)}
 
 
 def extract_text(file_path: str) -> dict:

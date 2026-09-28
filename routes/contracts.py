@@ -17,6 +17,9 @@ ALLOWED_EXTENSIONS = set(
     for ext in os.getenv("ALLOWED_EXTENSIONS", ".pdf,.txt").split(",")
 )
 MAX_FILE_SIZE_MB = float(os.getenv("MAX_FILE_SIZE_MB", "10.0"))
+if MAX_FILE_SIZE_MB < 0:
+    raise ValueError("MAX_FILE_SIZE_MB must be non-negative")
+MAX_FILE_SIZE_BYTES = int(MAX_FILE_SIZE_MB * 1024 * 1024)
 UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "uploads")
 
 
@@ -40,49 +43,55 @@ async def upload_contract(file: UploadFile = File(...)):
             detail=f"Invalid file extension. Allowed extensions: {', '.join(ALLOWED_EXTENSIONS)}",
         )
 
-    content = await file.read()
-    size_mb = len(content) / (1024 * 1024)
-
-    if size_mb > MAX_FILE_SIZE_MB:
+    # Read at most one byte beyond the configured limit so oversized files
+    # are rejected without loading the entire upload into memory.
+    content = await file.read(MAX_FILE_SIZE_BYTES + 1)
+    if len(content) > MAX_FILE_SIZE_BYTES:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"File size ({size_mb:.2f} MB) exceeds maximum limit of {MAX_FILE_SIZE_MB} MB.",
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"File exceeds the maximum limit of {MAX_FILE_SIZE_MB} MB.",
         )
+
+    size_mb = len(content) / (1024 * 1024)
 
     # Save physical file on disk
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     temp_filename = f"{os.urandom(8).hex()}{ext}"
     file_path = os.path.join(UPLOAD_FOLDER, temp_filename)
 
-    with open(file_path, "wb") as f:
-        f.write(content)
-
-    # Extract text content
     try:
+        with open(file_path, "wb") as f:
+            f.write(content)
+
+        # Extract text content
         extracted = extract_text(file_path)
         extracted_text = extracted.get("text", "")
-    except Exception as e:
-        if os.path.exists(file_path):
-            os.remove(file_path)
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Failed to extract text from document: {str(e)}",
+        contract_doc = Contract(
+            filename=temp_filename,
+            original_filename=file.filename,
+            text_content=extracted_text,
+            page_count=extracted.get("page_count", 1),
+            file_path=file_path,
+            file_size_mb=round(size_mb, 2),
+            word_count=len(extracted_text.split()),
+            status=ContractStatus.UPLOADED,
         )
 
-    # Instantiate Pydantic Contract model
-    contract_doc = Contract(
-        filename=temp_filename,
-        original_filename=file.filename,
-        text_content=extracted_text,
-        file_path=file_path,
-        file_size_mb=round(size_mb, 2),
-        word_count=len(extracted_text.split()),
-        status=ContractStatus.UPLOADED,
-    )
+        # Convert the Pydantic object to a dictionary and save it to MongoDB.
+        doc_dict = contract_doc.model_dump()
+        contracts_collection.insert_one(doc_dict)
+    except Exception as exc:
+        try:
+            os.remove(file_path)
+        except OSError:
+            pass
 
-    # Convert Pydantic object to dictionary and save to MongoDB
-    doc_dict = contract_doc.model_dump()
-    contracts_collection.insert_one(doc_dict)
+        if isinstance(exc, HTTPException):
+            raise
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to process document: {str(exc)}",
+        ) from exc
 
     return ContractResponse(**doc_dict)
 

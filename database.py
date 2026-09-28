@@ -1,10 +1,11 @@
 import os
-import sys
+import logging
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
 load_dotenv()
+logger = logging.getLogger(__name__)
 
 MONGODB_URI = os.getenv(
     "MONGODB_URI", "mongodb://root:password@localhost:27017/vakeel_db?authSource=admin"
@@ -27,12 +28,12 @@ def init_db():
         # Create indexes
         contracts_collection.create_index("filename", unique=True)
         analysis_collection.create_index("contract_id", unique=True)
-        print(" Successfully connected to MongoDB and created indexes.")
+        logger.info("Connected to MongoDB and created indexes.")
     except ConnectionFailure as e:
-        print(f" Failed to connect to MongoDB: {e}")
-        sys.exit(1)
+        logger.exception("Failed to connect to MongoDB")
+        raise RuntimeError("Failed to initialize MongoDB") from e
 
 
 def close_db():
     client.close()
-    print(" MongoDB connection closed.")
+    logger.info("MongoDB connection closed.")

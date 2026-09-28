@@ -32,9 +32,7 @@ def root():
         "description": "AI-Powered Contract Analyzer for Vakeels",
         "endpoints": {
             "POST /contracts/upload": "Upload a contract in the form of a PDF or TXT file",
-            "GET /contracts/": "Retrieve all contracts uploaded to the system in the form of a list",
+            "GET /contracts/": "Retrieve uploaded contracts",
             "GET /contracts/{contract_id}": "Retrieve a specific contract by its ID",
-            "GET /analysis/{analysis_id}": "Retrieve a specific analysis by its ID",
-            "GET /analysis/contract/{contract_id}": "Retrieve all analysis for a specific contract",
         },
     }
