@@ -7,13 +7,13 @@ from pymongo.errors import ConnectionFailure
 load_dotenv()
 logger = logging.getLogger(__name__)
 
-MONGODB_URI = os.getenv(
-    "MONGODB_URI", "mongodb+srv://hammadscripted_db_user:KBtx9OZcdHVzYpPN@cluster0.xte0cab.mongodb.net/vakil_db?retryWrites=true&w=majority"
-)
+MONGODB_URI = os.getenv("MONGODB_URI")
+if not MONGODB_URI:
+    raise RuntimeError("MONGODB_URI environment variable is required.")
 
 # Initialize client
 client= MongoClient(MONGODB_URI)
-db = client["vakeel_db"]
+db = client.get_default_database()
 
 # Collections
 contracts_collection = db["contracts"]
