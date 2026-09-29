@@ -1,0 +1,81 @@
+SAMPLE NON-DISCLOSURE AGREEMENT (NDA)
+
+This is a sample template for educational and drafting purposes only and is not legal advice.
+
+Effective Date: ___________________
+
+This Non-Disclosure Agreement ("Agreement") is entered into on the Effective Date by and between:
+
+Disclosing Party: ___________________
+Address: ___________________
+
+Receiving Party: ___________________
+Address: ___________________
+
+1. PURPOSE
+
+The parties wish to discuss a potential business, legal, commercial, or professional relationship and may disclose confidential information during those discussions.
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+
+Confidential Information includes all non-public information disclosed in written, oral, electronic, visual, or other form, including but not limited to business plans, legal strategies, client information, financial data, contracts, intellectual property, software, trade secrets, and internal documents.
+
+3. OBLIGATIONS OF THE RECEIVING PARTY
+
+- Keep all Confidential Information strictly confidential.
+- Use the information solely for the stated purpose.
+- Restrict access to authorized personnel with a need to know.
+- Exercise reasonable care to protect the information.
+- Not disclose the information without prior written consent.
+
+4. EXCLUSIONS
+
+Confidential Information does not include information that:
+- Is publicly available through no breach of this Agreement.
+- Was lawfully known before disclosure.
+- Is independently developed without using Confidential Information.
+- Is lawfully obtained from a third party.
+
+5. REQUIRED DISCLOSURE
+
+If disclosure is required by law or court order, the Receiving Party shall provide prompt notice where legally permitted and disclose only the minimum required information.
+
+6. RETURN OR DESTRUCTION
+
+Upon written request or termination of discussions, the Receiving Party shall promptly return or securely destroy Confidential Information, except where retention is legally required.
+
+7. TERM
+
+This Agreement becomes effective on the Effective Date and remains in effect for three (3) years, unless otherwise agreed in writing.
+
+8. NO LICENSE
+
+Nothing in this Agreement grants ownership or intellectual property rights except the limited right to use the Confidential Information for the stated purpose.
+
+9. REMEDIES
+
+The parties acknowledge that unauthorized disclosure may cause irreparable harm, and the Disclosing Party may seek injunctive relief and other legal remedies.
+
+10. GOVERNING LAW
+
+This Agreement shall be governed by the laws of ___________________.
+
+11. ENTIRE AGREEMENT
+
+This Agreement constitutes the entire agreement between the parties regarding confidentiality and supersedes prior understandings on this subject.
+
+SIGNATURES
+
+Disclosing Party
+
+Name: ___________________
+Title: ___________________
+Signature: ___________________
+Date: ___________________
+
+Receiving Party
+
+Name: ___________________
+Title: ___________________
+Signature: ___________________
+Date: ___________________

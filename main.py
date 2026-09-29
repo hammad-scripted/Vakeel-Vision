@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from database import close_db, init_db
 from routes import contracts
+from routes import analysis
 
 
 @asynccontextmanager
@@ -24,6 +25,7 @@ app = FastAPI(
 )
 # Routers
 app.include_router(contracts.router)    
+app.include_router(analysis.router)
 
 @app.get("/")
 def root():
