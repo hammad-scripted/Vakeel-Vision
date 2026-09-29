@@ -26,15 +26,4 @@ app = FastAPI(
 # Routers
 app.include_router(contracts.router)    
 app.include_router(analysis.router)
-
-@app.get("/")
-def root():
-    return {
-        "app": "Vakeel Contracts API",
-        "description": "AI-Powered Contract Analyzer for Vakeels",
-        "endpoints": {
-            "POST /contracts/upload": "Upload a contract in the form of a PDF or TXT file",
-            "GET /contracts/": "Retrieve uploaded contracts",
-            "GET /contracts/{contract_id}": "Retrieve a specific contract by its ID",
-        },
-    }
+app.frontend("/", directory="frontend/dist")

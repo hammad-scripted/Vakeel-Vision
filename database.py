@@ -8,7 +8,7 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 MONGODB_URI = os.getenv(
-    "MONGODB_URI", "mongodb://root:password@localhost:27017/vakeel_db?authSource=admin"
+    "MONGODB_URI", "mongodb+srv://hammadscripted_db_user:KBtx9OZcdHVzYpPN@cluster0.xte0cab.mongodb.net/vakil_db?retryWrites=true&w=majority"
 )
 
 # Initialize client
